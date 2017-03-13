@@ -11,6 +11,7 @@ import java.util.Vector;
 public class Generic {
 	public static void main(String[] arg){
 		MyClass<Integer, String, Long, String, List<String>> myClass = new MyClass<Integer, String, Long, String, List<String>>();
+		System.out.println(myClass.getData());
 		myClass.setData(123);
 		myClass.setOperator("add");
 		myClass.setData1(Long.MAX_VALUE);//9223372036854775807
@@ -78,6 +79,11 @@ class MyClass<E,T,A,B,C>{
 	A data1;
 	B data2;
 	C data3;
+	
+	public MyClass(){
+		System.out.println("MyClass init");
+		this.data = (E)"2222";
+	}
 	
 	public E getData() {
 		return data;
