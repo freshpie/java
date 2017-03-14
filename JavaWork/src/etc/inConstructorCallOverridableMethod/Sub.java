@@ -2,6 +2,8 @@ package etc.inConstructorCallOverridableMethod;
 
 import java.util.Date;
 
+
+//anti pattern 중 하나
 public final class Sub extends Super {
 	private final Date date;
 	
