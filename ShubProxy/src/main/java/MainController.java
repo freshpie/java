@@ -2,6 +2,7 @@ package main.java;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import javax.xml.soap.MessageFactory;
@@ -41,12 +42,12 @@ public class MainController {
 
 		//String url = "https://cus.tbapi.kt.com:443/SubscriptionInfoRetrieval/SubscriptionInfoRetrievalManager";
 		MessageFactory factory = MessageFactory.newInstance();
-	    SOAPMessage message = factory.createMessage(new MimeHeaders(), new ByteArrayInputStream(xmlData.toString().getBytes()));
+	    SOAPMessage message = factory.createMessage(new MimeHeaders(), new ByteArrayInputStream(xmlData.toString().getBytes(Charset.forName("UTF-8"))));
 		SOAPMessage soapResponse = soapConnection.call(message, url);
 	    
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		soapResponse.writeTo(out);
-		String strMsg = new String(out.toByteArray());
+		String strMsg = new String(out.toByteArray(), "UTF-8");
 		soapConnection.close();
 		
 		logger.info("=============Response==================");
