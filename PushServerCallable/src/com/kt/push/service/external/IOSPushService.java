@@ -48,6 +48,7 @@ public class IOSPushService extends PushService implements Callable<Object> {
 				resultMap.put("status", "5");
 				resultMap.put("message", "Fail");
 				if(errorResponse != null){
+					resultMap.put("message", errorResponse.getMessage());
 					resultMap.put("responseMessage", errorResponse.getMessage());
 					resultMap.put("responseStatus", String.valueOf(errorResponse.getStatus()));
 				}
