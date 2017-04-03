@@ -17,6 +17,7 @@ import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Sender;
 import com.ket.push.model.DaasPushListVO;
 import com.ket.push.model.DaasPushVO;
+import com.kt.push.main.Main;
 import com.kt.push.service.external.AndroidPushService;
 import com.kt.push.service.external.IOSPushService;
 import com.kt.push.service.external.PushService;
@@ -37,8 +38,7 @@ public class MainController {
 		try {
 			Message message = null;
 			Sender sender = null;
-			String apiKey = "AIzaSyAB80eAU0zEVBCXrPeBMhIlOYqnH5Kmm78";
-			
+			String apiKey = Main.API_KEY;//"AIzaSyAB80eAU0zEVBCXrPeBMhIlOYqnH5Kmm78";
 			String alert = "";
 			String msg = "";
 			String uid = "";
@@ -48,27 +48,25 @@ public class MainController {
 			ExecutorService executor = Executors.newFixedThreadPool(10);
 			List<PushService> jobList = new ArrayList<PushService>();
 			
-			PushNotificationPayload payload = null;//PushNotificationPayload.complex();
+			PushNotificationPayload payload = null;
 			
 			for (DaasPushVO daasPushVO : daasPushListVO.getPUSHLIST()) {
 				group = daasPushVO.getCLASS1();
-				alert = "K-Talk 자유게시판"+"|"+group+"|"+daasPushVO.getCLASS2();
-				
 				uid = String.valueOf(daasPushVO.getUID());
 				
-				if (group == "FREE") {
+				if ("FREE".equals(group)) {
 					alert = "K-Talk 자유게시판" + "|" + group + "|" + daasPushVO.getCLASS2();
 					msg = daasPushVO.getTITLE();
-                } else if (group == "NOTI") {
+                } else if ("NOTI".equals(group)) {
                     alert = "K-Talk 공지사항" + "|" + group + "|" + daasPushVO.getCLASS2();
                     msg = daasPushVO.getTITLE();
-                } else if (group == "VOC") {
+                } else if ("VOC".equals(group)) {
                 	alert = "K-Talk 기술지원요청" + "|" + group + "|" + daasPushVO.getCLASS2();
                     msg = daasPushVO.getTITLE();
-                } else if (group == "BAND") {
+                } else if ("BAND".equals(group)) {
                 	alert = "K-Talk BAND" + "|" + group + "|" +daasPushVO.getCLASS2();
                     msg = daasPushVO.getTITLE();
-                } else if (group == "LOGIN") {
+                } else if ("LOGIN".equals(group)) {
                 	alert = "K-Talk 가입" + "|"+ group + "|" + "0";
                     msg = daasPushVO.getTITLE();
                 }
@@ -86,14 +84,19 @@ public class MainController {
 					
 				} else if ("IP".equals(daasPushVO.getDEVICE_TYPE())) {
 					try {
-						//payload = PushNotificationPayload.complex();
-						payload = new PushNotificationPayload();
+						payload = PushNotificationPayload.complex();
 						payload.addAlert(msg);
-						//payload.addCustomAlertBody(msg);
 						payload.addBadge(badge);
 						payload.addCustomDictionary("url", alert);
 						payload.addCustomDictionary("pushid", uid);
 						//System.out.println(payload);
+						/*rawJson = "{\"aps\":"
+								+ "{\"alert\":\"" + msg + "\","
+								+ "\"badge\":" + badge + "}"
+							+ ",\"url\":\"" + alert + "\""
+							+ ",\"pushid\":\"" + uid + "\"}";
+						System.out.println(rawJson);
+						payload = PushNotificationPayload.fromJSON(rawJson);*/
 						
 						jobList.add( new IOSPushService(daasPushVO, payload) );
 					} catch (JSONException e) {

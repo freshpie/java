@@ -27,7 +27,6 @@ public class AndroidPushService extends PushService implements Callable<Object> 
 		Result result = null;
 		Map<String, String> resultMap = new HashMap<String, String>();
 		try {
-			//System.out.println("async run uid : "+ daasPushVO.getUID());
 			result = sender.sendNoRetry(message, daasPushVO.getTOKEN());
 			
 			resultMap.put("result", String.valueOf(result.getMessageId()));
