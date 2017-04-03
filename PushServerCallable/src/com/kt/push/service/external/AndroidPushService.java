@@ -37,7 +37,7 @@ public class AndroidPushService extends PushService implements Callable<Object> 
 				resultMap.put("device", "Android");
 			}else{
 				if(result.getErrorCodeName() != null){
-					resultMap.put("status", String.valueOf(5));
+					resultMap.put("status", String.valueOf(9));
 					resultMap.put("errorCode", result.getErrorCodeName());
 					resultMap.put("message", result.getErrorCodeName());
 				}

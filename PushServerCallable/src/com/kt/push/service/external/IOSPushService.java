@@ -43,7 +43,7 @@ public class IOSPushService extends PushService implements Callable<Object> {
 				resultMap.put("status", "2");
 				resultMap.put("message", "PUSH Success");
 			}else{
-				resultMap.put("status", "5");
+				resultMap.put("status", "9");
 				resultMap.put("message", "Fail");
 				
 				resultMap.put("message", notice.get(0).getException().getMessage());
