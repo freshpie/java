@@ -28,12 +28,12 @@ import javapns.notification.PushNotificationPayload;
 
 public class MainController {
 	public void run() {
-		System.out.println("[" + new Date() + "] run.. ");
-
+		System.out.print("[" + new Date() + "] run.. ");
 		// PUSH 발송 대상 조회
 		DaasPSPService daasPSPService = new DaasPSPService();
 		DaasPushListVO daasPushListVO = daasPSPService.getPushList();
-
+		System.out.println("target count : "+ daasPushListVO.getPUSHLIST().size());
+		
 		// 결과 확인
 		try {
 			Message message = null;
