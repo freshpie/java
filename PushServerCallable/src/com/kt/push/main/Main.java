@@ -11,10 +11,11 @@ import java.util.TimerTask;
 import com.kt.push.controller.MainController;
 
 public class Main {
-	public static String API_KEY;
-	public static String APNS_SSL_CERTIFICATE;
-	public static String APNS_SSL_CERTIFICATE_PWD;
-	public static boolean IS_PRODUCTION;
+	public static String API_KEY = "";
+	public static String APNS_SSL_CERTIFICATE = "";
+	public static String APNS_SSL_CERTIFICATE_PWD = "";
+	public static boolean IS_PRODUCTION = true;
+	public static long RUN_INTERVAL = 10000;
 	
 	public static void main(String[] args){
 		System.out.println("=========Init Push Batch===============");
@@ -31,10 +32,12 @@ public class Main {
 			APNS_SSL_CERTIFICATE = prop.getProperty("APNS_SSL_CERTIFICATE");
 			APNS_SSL_CERTIFICATE_PWD = prop.getProperty("APNS_SSL_CERTIFICATE_PWD");
 			IS_PRODUCTION = Boolean.parseBoolean(prop.getProperty("IS_PRODUCTION"));
+			RUN_INTERVAL = Long.parseLong(prop.getProperty("RUN_INTERVAL"));
 			System.out.println("--API_KEY : "+ API_KEY);
 			System.out.println("--APNS_SSL_CERTIFICATE : "+ APNS_SSL_CERTIFICATE);
 			System.out.println("--APNS_SSL_CERTIFICATE_PWD : "+ APNS_SSL_CERTIFICATE_PWD);
 			System.out.println("--IS_PRODUCTION : "+ IS_PRODUCTION);
+			System.out.println("--RUN_INTERVAL : "+ RUN_INTERVAL);
 			System.out.println("------------------------");
 			
 			final MainController mainController = new MainController();
@@ -42,15 +45,15 @@ public class Main {
 			TimerTask timerTask = new TimerTask() {
 				@Override
 				public void run() {
-					System.out.println("=========Run Push Batch===============");
 					mainController.run();
 				}
 			};
 			// 5초마다 mainController 호출
-			//timer.schedule(timerTask, 0, 5000);
+			System.out.println("=========Run Push Batch===============");
+			timer.schedule(timerTask, 0, RUN_INTERVAL);
 			
 			// 한번 mainController 호출
-			timer.schedule(timerTask, 0);
+			//timer.schedule(timerTask, 0);
 			
 		} catch (FileNotFoundException fne){
 			System.out.println("'config.properties' is not found.");
