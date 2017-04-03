@@ -28,14 +28,14 @@ import javapns.notification.PushNotificationPayload;
 
 public class MainController {
 	public void run() {
-		System.out.print("[" + new Date() + "] run.. ");
-		// PUSH 발송 대상 조회
-		DaasPSPService daasPSPService = new DaasPSPService();
-		DaasPushListVO daasPushListVO = daasPSPService.getPushList();
-		System.out.println("target count : "+ daasPushListVO.getPUSHLIST().size());
-		
-		// 결과 확인
 		try {
+			System.out.print("[" + new Date() + "] run.. ");
+			// PUSH 발송 대상 조회
+			DaasPSPService daasPSPService = new DaasPSPService();
+			DaasPushListVO daasPushListVO = daasPSPService.getPushList();
+			System.out.println("target count : "+ daasPushListVO.getPUSHLIST().size());
+			
+			
 			Message message = null;
 			Sender sender = null;
 			String apiKey = Main.API_KEY;//"AIzaSyAB80eAU0zEVBCXrPeBMhIlOYqnH5Kmm78";
@@ -121,7 +121,9 @@ public class MainController {
 			}
 			executor.shutdown();
 			
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 	}
