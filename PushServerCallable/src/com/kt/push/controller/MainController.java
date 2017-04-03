@@ -131,7 +131,7 @@ public class MainController {
 	private void savePushResult(Map<String, String> r) {
 		//System.out.println("device : "+ r.get("device") + ", UID : " + r.get("uid") + ", status :  "+ r.get("status") + ", result :  "+ r.get("result"));
 		try {
-			String callUrl = "http://192.168.1.20/DAAS/Web/RemoteControl.aspx?PSP=DaasPSP&PSO=DaasSO&BO=SetDaasPushReport&UID="+r.get("uid") +"&MESSAGE="+URLEncoder.encode((String)r.get("message"), "UTF-8") +"&STATUS="+r.get("status") +"&Channel=CC";
+			String callUrl = "http://" + Main.SERVER_IP + "/DAAS/Web/RemoteControl.aspx?PSP=DaasPSP&PSO=DaasSO&BO=SetDaasPushReport&UID="+r.get("uid") +"&MESSAGE="+URLEncoder.encode((String)r.get("message"), "UTF-8") +"&STATUS="+r.get("status") +"&Channel=CC";
 			//System.out.println(httpClient.doGet(callUrl));
 			HttpClient.doGet(callUrl);
 			

@@ -16,6 +16,7 @@ public class Main {
 	public static String APNS_SSL_CERTIFICATE_PWD = "";
 	public static boolean IS_PRODUCTION = true;
 	public static long RUN_INTERVAL = 10000;
+	public static String SERVER_IP = "";
 	
 	public static void main(String[] args){
 		System.out.println("=========Init Push Batch===============");
@@ -33,11 +34,13 @@ public class Main {
 			APNS_SSL_CERTIFICATE_PWD = prop.getProperty("APNS_SSL_CERTIFICATE_PWD");
 			IS_PRODUCTION = Boolean.parseBoolean(prop.getProperty("IS_PRODUCTION"));
 			RUN_INTERVAL = Long.parseLong(prop.getProperty("RUN_INTERVAL"));
+			SERVER_IP = prop.getProperty("SERVER_IP");
 			System.out.println("--API_KEY : "+ API_KEY);
 			System.out.println("--APNS_SSL_CERTIFICATE : "+ APNS_SSL_CERTIFICATE);
 			System.out.println("--APNS_SSL_CERTIFICATE_PWD : "+ APNS_SSL_CERTIFICATE_PWD);
 			System.out.println("--IS_PRODUCTION : "+ IS_PRODUCTION);
 			System.out.println("--RUN_INTERVAL : "+ RUN_INTERVAL);
+			System.out.println("--SERVER_IP : "+ SERVER_IP);
 			System.out.println("------------------------");
 			
 			final MainController mainController = new MainController();

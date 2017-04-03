@@ -9,11 +9,12 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.commons.lang3.StringUtils;
 
 import com.ket.push.model.DaasPushListVO;
+import com.kt.push.main.Main;
 import com.kt.push.util.HttpClient;
 
 public class DaasPSPService {
 
-	private final static String DEV_URL = "http://192.168.1.20/DAAS/Web/RemoteControl.aspx?PSP=DaasPSP&PSO=DaasSO&BO=GetDaasPushList&Channel=CC";
+	private final static String DEV_URL = "http://" + Main.SERVER_IP + "/DAAS/Web/RemoteControl.aspx?PSP=DaasPSP&PSO=DaasSO&BO=GetDaasPushList&Channel=CC";
 
 	/**
 	 * PUSH를 발송 할 대상 리스트를 가져온다.
