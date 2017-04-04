@@ -11,7 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Sender;
@@ -27,18 +28,19 @@ import com.kt.push.util.HttpClient;
 import javapns.notification.PushNotificationPayload;
 
 public class MainController {
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	
 	public void run() {
 		try {
-			System.out.print("[" + new Date() + "] run.. ");
+			logger.info("[" + new Date() + "] run.. ");
 			// PUSH 발송 대상 조회
 			DaasPSPService daasPSPService = new DaasPSPService();
 			DaasPushListVO daasPushListVO = daasPSPService.getPushList();
-			System.out.println("target count : "+ daasPushListVO.getPUSHLIST().size());
+			logger.info("----------> target count : "+ daasPushListVO.getPUSHLIST().size());
 			
 			
 			Message message = null;
 			Sender sender = null;
-			String apiKey = Main.API_KEY;//"AIzaSyAB80eAU0zEVBCXrPeBMhIlOYqnH5Kmm78";
 			String alert = "";
 			String msg = "";
 			String uid = "";
@@ -72,7 +74,7 @@ public class MainController {
                 }
 				
 				if ("AD".equals(daasPushVO.getDEVICE_TYPE())) {
-					sender = new Sender(apiKey);
+					sender = new Sender(Main.API_KEY);
 					message = new Message.Builder()
 							.addData("alert", msg)
 							.addData("badge", String.valueOf(badge))
@@ -83,25 +85,21 @@ public class MainController {
 					jobList.add( new AndroidPushService(daasPushVO, sender, message) );
 					
 				} else if ("IP".equals(daasPushVO.getDEVICE_TYPE())) {
-					try {
-						payload = PushNotificationPayload.complex();
-						payload.addAlert(msg);
-						payload.addBadge(badge);
-						payload.addCustomDictionary("url", alert);
-						payload.addCustomDictionary("pushid", uid);
-						//System.out.println(payload);
-						/*rawJson = "{\"aps\":"
-								+ "{\"alert\":\"" + msg + "\","
-								+ "\"badge\":" + badge + "}"
-							+ ",\"url\":\"" + alert + "\""
-							+ ",\"pushid\":\"" + uid + "\"}";
-						System.out.println(rawJson);
-						payload = PushNotificationPayload.fromJSON(rawJson);*/
-						
-						jobList.add( new IOSPushService(daasPushVO, payload) );
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
+					payload = PushNotificationPayload.complex();
+					payload.addAlert(msg);
+					payload.addBadge(badge);
+					payload.addCustomDictionary("url", alert);
+					payload.addCustomDictionary("pushid", uid);
+					//System.out.println(payload);
+					/*rawJson = "{\"aps\":"
+							+ "{\"alert\":\"" + msg + "\","
+							+ "\"badge\":" + badge + "}"
+						+ ",\"url\":\"" + alert + "\""
+						+ ",\"pushid\":\"" + uid + "\"}";
+					System.out.println(rawJson);
+					payload = PushNotificationPayload.fromJSON(rawJson);*/
+					
+					jobList.add( new IOSPushService(daasPushVO, payload) );
 				}
 			}
 			
@@ -112,7 +110,8 @@ public class MainController {
 				try {
 					resultMap = (Map<String,String>)future.get();
 				} catch (ExecutionException e) {
-					e.printStackTrace();
+					logger.error("An ExecutionException was thrown at Run() ", e);
+					//e.printStackTrace();
 				} finally {
 					if(resultMap != null){
 						savePushResult(resultMap);
@@ -122,9 +121,11 @@ public class MainController {
 			executor.shutdown();
 			
 		} catch (InterruptedException ie) {
-			ie.printStackTrace();
+			logger.error("An InterruptedException was thrown at Run() ", ie);
+			//ie.printStackTrace();
 		} catch (Exception e){
-			e.printStackTrace();
+			logger.error("An Exception was thrown at Run()", e);
+			//e.printStackTrace();
 		}
 	}
 
@@ -136,7 +137,8 @@ public class MainController {
 			HttpClient.doGet(callUrl);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("An Exception was thrown at savePushResult() ", e);
+			//e.printStackTrace();
 		}
 		
 	}

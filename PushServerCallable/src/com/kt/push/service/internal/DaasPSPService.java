@@ -7,13 +7,16 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ket.push.model.DaasPushListVO;
 import com.kt.push.main.Main;
 import com.kt.push.util.HttpClient;
 
 public class DaasPSPService {
-
+	private static final Logger logger = LoggerFactory.getLogger(HttpClient.class);
+	
 	private final static String DEV_URL = "http://" + Main.SERVER_IP + "/DAAS/Web/RemoteControl.aspx?PSP=DaasPSP&PSO=DaasSO&BO=GetDaasPushList&Channel=CC";
 
 	/**
@@ -52,8 +55,8 @@ public class DaasPSPService {
 			// END : XML -> OBJECT 
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("An Exception was thrown at DaasPSPService.getPushList() ", e);
+			//e.printStackTrace();
 		}
 		
 		// 결과 객체

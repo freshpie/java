@@ -6,12 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.ket.push.model.DaasPushVO;
 
 public class AndroidPushService extends PushService implements Callable<Object> {
+	private static final Logger logger = LoggerFactory.getLogger(AndroidPushService.class);
+	
 	Message message;
 	Sender sender;
 	DaasPushVO daasPushVO;
@@ -45,7 +50,8 @@ public class AndroidPushService extends PushService implements Callable<Object> 
 			resultMap.put("device", "Android");
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("An IOException was thrown at AndroidPushService.call() ", e);
+			//e.printStackTrace();
 		}
 		return resultMap;
 	}

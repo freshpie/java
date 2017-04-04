@@ -5,9 +5,7 @@ import org.apache.http.client.fluent.Response;
 
 
 public class HttpClient {	
-	
 	public static String doGet(String url) throws Exception {
-
 		// request
 		Request request = Request.Get(url);
 		request.connectTimeout(1000);

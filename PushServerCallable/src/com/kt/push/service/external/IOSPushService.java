@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ket.push.model.DaasPushVO;
 import com.kt.push.main.Main;
 
@@ -14,6 +17,8 @@ import javapns.notification.PushedNotifications;
 import javapns.notification.ResponsePacket;
 
 public class IOSPushService extends PushService implements Callable<Object> {
+	private static final Logger logger = LoggerFactory.getLogger(IOSPushService.class);
+	
 	DaasPushVO daasPushVO;
 	PushNotificationPayload payload;
 	
@@ -24,10 +29,6 @@ public class IOSPushService extends PushService implements Callable<Object> {
 
 	@Override
 	public Map<String, String> call(){
-		String APNS_SSL_CERTIFICATE = Main.APNS_SSL_CERTIFICATE;//"src/cert/HomehubManager_dev.p12";
-		String APNS_SSL_CERTIFICATE_PWD = Main.APNS_SSL_CERTIFICATE_PWD;//"newolleh";
-		boolean isProduction = Main.IS_PRODUCTION; 
-		
 		Map<String, String> resultMap = new HashMap<String, String>();
 		
 		try {
@@ -35,7 +36,7 @@ public class IOSPushService extends PushService implements Callable<Object> {
 			// true : 실서버 gateway.push.apple.com
 			// false : 개발서버 gateway.sandbox.push.apple.com
 			PushedNotifications notice = 
-					Push.payload(payload, APNS_SSL_CERTIFICATE, APNS_SSL_CERTIFICATE_PWD, isProduction, daasPushVO.getTOKEN());
+					Push.payload(payload, Main.APNS_SSL_CERTIFICATE, Main.APNS_SSL_CERTIFICATE_PWD, Main.IS_PRODUCTION, daasPushVO.getTOKEN());
 
 			resultMap.put("uid", String.valueOf(daasPushVO.getUID()));
 			resultMap.put("result", String.valueOf(notice.get(0).isSuccessful()));
@@ -76,7 +77,8 @@ public class IOSPushService extends PushService implements Callable<Object> {
 			resultMap.put("uid", String.valueOf(daasPushVO.getUID()));
 			resultMap.put("status", "5");
 			resultMap.put("message", e.getClass().getName()+"|"+e.getMessage());
-			e.printStackTrace();
+			logger.error("An Exception was thrown at IOSPushService.call() ", e);
+			//e.printStackTrace();
 		}
 		return resultMap;
 	}
