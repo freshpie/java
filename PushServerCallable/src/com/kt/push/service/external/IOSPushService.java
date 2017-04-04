@@ -16,8 +16,10 @@ import javapns.notification.PushNotificationPayload;
 import javapns.notification.PushedNotifications;
 import javapns.notification.ResponsePacket;
 
-public class IOSPushService extends PushService implements Callable<Object> {
+public class IOSPushService extends PushService implements Callable<Map<String,String>> {
 	private static final Logger logger = LoggerFactory.getLogger(IOSPushService.class);
+	
+	int retryCount = 0;
 	
 	DaasPushVO daasPushVO;
 	PushNotificationPayload payload;
@@ -41,13 +43,11 @@ public class IOSPushService extends PushService implements Callable<Object> {
 			resultMap.put("uid", String.valueOf(daasPushVO.getUID()));
 			resultMap.put("result", String.valueOf(notice.get(0).isSuccessful()));
 			if(notice.get(0).isSuccessful()){
-				resultMap.put("status", "2");
+				resultMap.put("status", Main.SUCCESS_CODE);
 				resultMap.put("message", "PUSH Success");
 			}else{
-				resultMap.put("status", "9");
+				resultMap.put("status", Main.FAIL_CODE);
 				resultMap.put("message", "Fail");
-				
-				resultMap.put("message", notice.get(0).getException().getMessage());
 				
 				try {
 					throw notice.get(0).getException();
@@ -72,12 +72,17 @@ public class IOSPushService extends PushService implements Callable<Object> {
 			}
 			resultMap.put("device", "IOS");
 			//System.out.println(resultMap.toString());
-			
+			retryCount = 0;
 		} catch (Exception e) {
-			resultMap.put("uid", String.valueOf(daasPushVO.getUID()));
-			resultMap.put("status", "5");
-			resultMap.put("message", e.getClass().getName()+"|"+e.getMessage());
-			logger.error("An Exception was thrown at IOSPushService.call() ", e);
+			if(retryCount < 3){
+				retryCount++;
+				call();
+			}else{
+				resultMap.put("uid", String.valueOf(daasPushVO.getUID()));
+				resultMap.put("status", Main.FAIL_CODE);
+				resultMap.put("message", e.getClass().getName()+"|"+e.getMessage());
+				logger.error("An Exception was thrown at IOSPushService.call() ", e);
+			}
 			//e.printStackTrace();
 		}
 		return resultMap;

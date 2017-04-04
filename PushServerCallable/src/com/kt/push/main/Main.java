@@ -24,6 +24,9 @@ public class Main {
 	public static long RUN_INTERVAL = 10000;
 	public static String SERVER_IP = "";
 	
+	public static final String SUCCESS_CODE = "2";
+	public static final String FAIL_CODE = "9";
+	
 	public static void main(String[] args){
 		logger.info("=========Init Push Batch===============");
 		Properties prop = new Properties();

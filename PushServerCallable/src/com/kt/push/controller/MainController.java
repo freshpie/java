@@ -47,7 +47,7 @@ public class MainController {
 			int badge = 0;
 			String group = "";
 
-			ExecutorService executor = Executors.newFixedThreadPool(10);
+			ExecutorService executor = Executors.newFixedThreadPool(100);
 			List<PushService> jobList = new ArrayList<PushService>();
 			
 			PushNotificationPayload payload = null;
@@ -108,6 +108,7 @@ public class MainController {
 			for(Future<Map<String,String>> future : futureList ) {
 				Map<String, String> resultMap = null;
 				try {
+					while(!future.isDone()){ System.out.println("waitting..."); }
 					resultMap = (Map<String,String>)future.get();
 				} catch (ExecutionException e) {
 					logger.error("An ExecutionException was thrown at Run() ", e);
