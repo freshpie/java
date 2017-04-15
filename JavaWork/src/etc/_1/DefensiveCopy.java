@@ -1,4 +1,4 @@
-package etc;
+package etc._1;
 
 public class DefensiveCopy {
 	public static void main(String[] args) {

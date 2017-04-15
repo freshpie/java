@@ -13,12 +13,12 @@ public class ReflectionTest {
 	public static void main(String[] args) {
 		try {
 			//객체 생성
-			Class class1 = Class.forName("etc.MyAnnotationTest");
-			Object obj = class1.newInstance();
-			Constructor c = class1.getConstructor(null); //String.class, Integer.Class...
-			Object obj2 = c.newInstance(null);
-			System.out.println(class1.getAnnotation(MyAnnotation.class));
-			System.out.println(class1.getAnnotation(MyAnnotation2.class));
+			//Class class1 = Class.forName("etc.MyAnnotationTest");
+			//Object obj = class1.newInstance();
+			//Constructor c = class1.getConstructor(null); //String.class, Integer.Class...
+			//Object obj2 = c.newInstance(null);
+			//System.out.println(class1.getAnnotation(MyAnnotation.class));
+			//System.out.println(class1.getAnnotation(MyAnnotation2.class));
 			System.out.println("-------------------------------------------");
 			
 			System.out.println(Class.forName("java.lang.String"));

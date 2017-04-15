@@ -3,12 +3,15 @@ package java8;
 public class DupInterfaceNameTest {
 
 	public static void main(String[] args) {
-		InterfaceImpl impl = new InterfaceImpl();
+		//InterfaceImpl impl = new InterfaceImpl();
+		//impl.interfaceMethod();
 		
-		impl.interfaceMethod();
+		//DupInterfaceImpl dupImpl = new DupInterfaceImpl();
+		//dupImpl.customMethod();
 		
-		DupInterfaceImpl dupImpl = new DupInterfaceImpl();
-		dupImpl.customMethod();
+		DupInterfaceImpl2 dup2 = new DupInterfaceImpl2();
+		dup2.interfaceMethod();
+		
 	}		
 }
 
@@ -41,7 +44,7 @@ class DupInterfaceImpl implements Interface3, Interface4{
 
 class DupInterfaceImpl2 implements Interface1, Interface2{
 	//default 메소드가 구현하는 인터페이스에 중복으로 존재하면
-	//둘중 하나를 오버라이트 해주어야 한다(모호함 제거)
+	//둘중 하나를 오버라이드 해주어야 한다(모호함 제거)
 	@Override
 	public void interfaceMethod2() {
 	}
@@ -53,6 +56,7 @@ class DupInterfaceImpl2 implements Interface1, Interface2{
 	@Override
 	public void interfaceMethod() {
 		Interface1.super.interfaceMethod();
+		System.out.println("DupInterfaceImpl2 interfaceMethod");
 	}
 	//OR
 	/*@Override
