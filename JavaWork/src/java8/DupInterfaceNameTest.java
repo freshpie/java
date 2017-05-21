@@ -9,12 +9,15 @@ public class DupInterfaceNameTest {
 		//DupInterfaceImpl dupImpl = new DupInterfaceImpl();
 		//dupImpl.customMethod();
 		
-		DupInterfaceImpl2 dup2 = new DupInterfaceImpl2();
+		DupInterfaceImpl3 dup2 = new DupInterfaceImpl3();
 		dup2.interfaceMethod();
 		
 	}		
 }
 
+//default 메소드는 기본적으로 하위호환성을 위하여 사용된다.
+//다중 인터페이스 구현시 기존 구현 메소드를 사용하길 원한다면 
+//메소드 오버라이드 내용에 상위 인터페이스에서 default 키워드가 사용된 메소드를 호출해 준다...
 class InterfaceImpl implements Interface1{
 	@Override
 	public void interfaceMethod() {
@@ -74,11 +77,14 @@ class DupInterfaceImpl3 implements Interface1, Interface3{
 	@Override
 	public void interfaceMethod1() {}
 
-	@Override
-	public void interfaceMethod() {}
+	//@Override
+	//public void interfaceMethod() {
+	//	System.out.println("DupInterfaceImpl3 interfaceMethod");
+	//}
 	//OR
-	/*@Override
+	//@Override
 	public void interfaceMethod() {
 		Interface1.super.interfaceMethod();
-	}*/
+		System.out.println("DupInterfaceImpl3 interfaceMethod");
+	}
 }

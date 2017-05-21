@@ -7,6 +7,6 @@ public class ModifierTest {
 		
 		PublicTestClass pc = new PublicTestClass();
 		
-		DefaultTestClass tc = new DefaultTestClass();
+		//DefaultTestClass tc = new DefaultTestClass();
 	}
 }

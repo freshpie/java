@@ -5,14 +5,18 @@ public class MyAnnotationTest {
 	
 	
 	@MyAnnotation(id = "1", name = "1", num = 1)
-	String a;
+	static String a;
 	//@MyAnnotation2    //annotation target 설정에 따라 필드에서는 에러
-	String b;
+	
+	static String b;
 	
 	@MyAnnotation(id = "1", name = "1", num = 1)
 	public void myMethod(){	}
 	
 	public static void main(String[] arg){
+		System.out.println(a);
+		
+		
 		System.out.println("MyAnnotationTest에 설정된 annotation은 ? "+ MyAnnotationTest.class.getAnnotation(MyAnnotation.class));
 		System.out.println("MyAnnotationTest에 설정된 annotation은 ? "+ MyAnnotationTest.class.getAnnotation(MyAnnotation2.class));
 		
